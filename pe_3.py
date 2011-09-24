@@ -1,22 +1,35 @@
 #pe_3
 
 from math import sqrt
+#eratosthenes sieve primality testing.
+#if prime return 1 else 0
+
+from pe_7 import notPrime
+
+def sieve(test):
+	sqroot=sqrt(test)
+	i=3
+	while i<=sqroot:
+		if test%i==0:
+			break
+		i+=1
+	else:
+		return 1
+	return 0
 
 #prime number generator(or better validator )
 #yields primes
-def png():
+def png(testfunc=sieve):
 	yield 2
 	
 	test=3
 	while(True):
-		sqroot=sqrt(test)
-		i=3
-		while i<=sqroot:
-			if test%i==0:
-				break
-			i+=1
-		else:
-			yield test
+		#if the testfunc is true yield
+		try:
+			if testfunc(test):
+				yield test
+		except notPrime:
+			pass
 		test+=2
 
 def tocompositeform(N):
@@ -32,4 +45,4 @@ def tocompositeform(N):
 			N/=dv
 		dv=x.__next__()
 	return res
-		
+
